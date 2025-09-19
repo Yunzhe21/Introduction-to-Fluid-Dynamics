@@ -1,6 +1,6 @@
 ## Description
 
-Here are my homework solution to the course "Special Topics: Introduction to Fluid Dynamics", by Professor Jinzi (Mac) Huang.
+Here are my homework solutions to the course "Special Topics: Introduction to Fluid Dynamics", by Professor Jinzi (Mac) Huang.
 
 Reference book for this course is "Elementary Fluid Dynamics" 
 
