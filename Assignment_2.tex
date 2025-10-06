@@ -1,0 +1,171 @@
+\documentclass[12pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage[all]{xy}
+
+\usepackage{amsmath,amsthm,amssymb,color,latexsym, esint}
+\usepackage{geometry}        
+\geometry{letterpaper}    
+\usepackage{graphicx}
+
+\newcommand{\legendre}[2]{\ensuremath{\left( \frac{#1}{#2} \right) }}
+\newtheorem{problem}{Problem}
+
+\newenvironment{solution}[1][\it{Solution}]{\textbf{#1. } }{$\square$}
+
+
+\begin{document}
+\noindent Introduction to Fluid Dynamics \hfill Assignment 2\\
+Yunzhe Zheng. (2025/10/12)
+
+\hrulefill
+
+\begin{problem}
+    We may deduce from eqns (6.7) and (6.9) that 
+    $$
+        t_i=-pn_i+\mu n_j\left(\frac{\partial u_i}{\partial x_j}+\frac{\partial u_j}{\partial x_i}\right)
+    $$
+    Show that it is identical to 
+    $$
+        \textbf{t}=-p\textbf{n}+\mu[2(\textbf{n}\cdot\nabla)\textbf{u}+\textbf{n}\times (\nabla\times \textbf{u})]
+    $$
+\end{problem}
+
+\textbf{Proof:} We utilize the Levi-Civita symbol, where
+\begin{align*}
+    \left[\textbf{n}\times(\nabla\times\textbf{u})\right]_i&= \varepsilon_{ijk}n_j\left(\varepsilon_{kmn}\frac{\partial u_n}{x_m}\right)=\varepsilon_{kij}\varepsilon_{kmn}n_j\frac{\partial u_n}{\partial x_m} \\
+    &=(\delta_{im}\delta_{jn}-\delta_{in}\delta_{jm})n_j\frac{\partial u_n}{\partial x_m} \\
+    &=n_j\frac{\partial u_j}{\partial x_i}- n_j\frac{\partial u_i}{\partial x_j}
+\end{align*}
+Also, since we also  have $\left[(\textbf{n}\cdot\nabla)\textbf{u}\right]_i=n_j\frac{\partial u_i}{\partial x_j}$, combining with the calculation above, we obtain that 
+\begin{align*}
+    t_i&=-pn_i+\mu\left(2n_j\frac{\partial u_i}{\partial x_j}+n_j\frac{\partial u_j}{\partial x_i}-n_j\frac{\partial u_i}{\partial x_j}\right) \\
+    &=-pn_i+\mu n_j\left(\frac{\partial u_i}{\partial x_j}+\frac{\partial u_j}{\partial x_i}\right)
+\end{align*} \qed
+\\
+\begin{problem}
+    Show that the net force exerted on a finite blob of fluid by the surrounding fluid is 
+    $$
+        \int_S\textbf{t}dS=\int_V(-\nabla p+\mu\nabla^2\textbf{u})dV
+    $$
+    where $S$ is the surface of the blob and $V$ is the region occupied by the blob. Deduce that if the blob is small the net force on it, excluded gravity, is $-\nabla p+\mu\nabla^2\textbf{u}$ per unit volume.
+\end{problem}
+
+\textbf{Proof:} Calculate
+\begin{align*}
+    \left[\int_S\textbf{t}dS\right]_i&=\int_ST_{ij}n_jdS=\int_S\textbf{T}_i\cdot\textbf{n}dS
+\end{align*}
+where $\textbf{T}_i$ is the $i$-th row of the stress tensor, then by Divergence Theorem, 
+\begin{align*}
+    \left[\int_S\textbf{t}dS\right]_i&=\int_V\nabla\cdot\textbf{T}_idV=\int_V\frac{\partial T_{ij}}{\partial x_j}dV \\
+    &=\int_V-\frac{\partial p\delta_{ij}}{\partial x_j}+\mu\frac{\partial}{\partial x_j}\left(\frac{\partial u_j}{\partial x_i}+\frac{\partial u_i}{\partial x_j}\right)dV \\
+    &=\int_V-\frac{\partial p}{\partial x_i}+\mu\frac{\partial}{\partial x_i}\frac{\partial u_j}{\partial x_j}+\mu\frac{\partial^2 u_i}{\partial x_j^2}dV
+\end{align*}
+Since $\nabla\cdot \textbf{u}=0$, $\mu\frac{\partial}{\partial x_i}\frac{\partial u_j}{\partial x_j}=0$, we then obtain
+\begin{align*}
+    \int_S\textbf{t}dS=\int_V(-\nabla p+\mu\nabla^2\textbf{u})dV
+\end{align*}
+as desired. And when the volume is sufficiently small, we may approximate the integration by
+$$
+    (-\nabla p+\mu\nabla^2\textbf{u})\cdot V
+$$
+then the net force per unit volume is 
+$$
+    \frac{1}{V}(-\nabla p+\mu\nabla^2\textbf{u})\cdot V=-\nabla p+\mu\nabla^2\textbf{u}
+$$
+\qed 
+\\
+\begin{problem}
+    Verify in the case of a simple shear flow, 
+    $$
+        \textbf{u}=[u(y), 0, 0]
+    $$
+    equation $\textbf{t}=-p\textbf{n}+\mu[2(\textbf{n}\cdot\nabla)\textbf{u}+\textbf{n}\times (\nabla\times \textbf{u})]$ reduces, when $\textbf{n}=(0, 1, 0)$, to 
+    $$
+        \textbf{t}=\left[\mu\frac{du}{dy}, -p, 0\right]
+    $$
+\end{problem}
+
+\textbf{Proof:} Calculate $\textbf{t}$ component-wise,
+\begin{align*}
+   t_1&=\mu\left(\frac{\partial u_1}{\partial y}+\frac{\partial u_2}{\partial x}\right)=\mu\frac{du}{dy} \\
+   t_2&=-p+2\mu\frac{\partial u_2}{\partial y}=-p \\
+   t_3&=\mu\left(\frac{\partial u_3}{\partial y}+\frac{\partial u_2}{\partial z}\right)=0 
+\end{align*}\qed
+\\
+\begin{problem}
+    Give an order of magnitude estimate of the Reynolds number for: \\
+    \indent (i). flow past the wing of a jumbo jet at 150 $ms^{-1}$ (roughly half speed of sound). \\
+    \indent (ii). experiment in 1.1 with $L=2$ cm and $U=5$ $cm\ s^{-1}$ \\
+    \indent (iii). a thick layer of golden syrup draining of the spoon. \\
+    \indent (iv). a spermatozoa with a tail length of $10^{-3}$ cm swimming at $10^{-2}$ $cm\ s^{-1}$ in water.
+\end{problem}
+
+\textbf{Solution:} (i). $Re=\frac{UR}{v}=\frac{15000\times 10^3}{0.15}=10^7$. \\
+(ii). If we approximate the viscosity of salty water as pure water, then $Re=\frac{5\times 2}{0.01}=10^3$. \\
+(iii). $Re=\frac{1\times 1}{1200}=8\times 10^{-3}$. \\
+(iv). $Re=\frac{10^{-3}\times 10^{-2}}{0.01}=10^{-3}$.
+\\
+\begin{problem}
+    The problem of $2-D$ steady viscous flow past a circular cylinder of radius $a$ involves finding a velocity field $\textbf{u}=[u(x,y),v(x,y), 0]$ which satisfies 
+    $$
+        (\textbf{u}\cdot\nabla)\textbf{u}=-\frac{1}{\rho}\nabla p+\nu\nabla^2\textbf{u}, \ \nabla\cdot \textbf{u}=0
+    $$
+    together with the boundary conditions 
+    $$
+        \textbf{u}=0\text{ on } x^2+y^2=a^2; \ \textbf{u}\to(U,0,0)\text{ as } x^2+y^2\to \infty
+    $$
+    Rewrite the problem in dimensionless form by using the dimensionless variables
+    $$
+        \textbf{x}'=\textbf{x}/a, \ \textbf{u}'=\textbf{u}/U, \ p'=p/\rho U^2
+    $$
+    Without solving the problem, show that the streamline pattern can depend on $v,a,U$ only in the combination $R=Ua/v$, so that flows at equal Reynolds numbers are geometrically similar.
+\end{problem}
+
+\textbf{Proof:} We calculate each term in the original equation
+\begin{align*}
+    (\textbf{u}'\cdot\nabla')\textbf{u}'=\left(\frac{\textbf{u}}{U}\cdot a\nabla\right)\frac{\textbf{u}}{U}=\frac{a}{U^2}(\textbf{u}\cdot\nabla)\textbf{u}
+\end{align*}
+Second term
+\begin{align*}
+    \nabla' p'=a\nabla\left(\frac{p}{\rho U^2}\right)=\frac{a}{\rho U^2}\nabla p
+\end{align*}
+thus 
+$$
+    \frac{1}{\rho}\nabla p=\frac{U^2}{a}\nabla'p'
+$$
+Third term
+\begin{align*}
+    \nu\nabla'^2\textbf{u}'=\nu \frac{a^2}{U}\nabla^2\textbf{u}
+\end{align*}
+Thus, by calculating the boundary condition, we transform the problem into 
+$$
+\left\{\begin{matrix}
+ (\textbf{u}'\cdot\nabla')\textbf{u}'=\nabla'p'+\frac{\nu}{Ua}\nabla'^2\textbf{u}'\\
+ \nabla'\cdot\textbf{u}'=0\\
+ \textbf{u}'=0 \text{ on } x'^2+y'^2=1\\
+  \textbf{u}'\to (1, 0, 0)\text{ as } x'^2+y'^2\to\infty\\
+\end{matrix}\right.
+$$
+and notice that the solution to this question depends on $\textbf{x}'$ and $R$, then at each fixed $\textbf{x}'$, the direction will only depend on $R$, so for same $R$ (Reynolds number), the flow is geometrically similar. \qed
+\\
+\begin{problem}
+    Viscous fluid flow between two stationary rigid boundaries $y=\pm h$ under a constant pressure gradient $P=-dp/dx$. Show that 
+    $$
+        u=\frac{P}{2\mu}(h^2-y^2), \ v=w=0
+    $$
+\end{problem}
+
+\textbf{Proof:} We seek solution to Navier-Stokes equation of the form $\textbf{u}=(u(y), 0, 0)$, then consider N-S equation at $x$-component
+$$
+    \frac{\partial u}{\partial t}+u\frac{\partial u}{\partial x}+v\frac{\partial u}{\partial y}+w\frac{\partial u}{\partial z}=-\frac{1}{\rho}\frac{\partial p}{\partial x}+\mu\nabla^2u
+$$
+Notice that since $v=w=0$, and by $\nabla\cdot \textbf{u}=0$, we have $\frac{\partial u}{\partial x}=0$. By some simple cancellation, we obtain
+$$
+    \mu\frac{d^2u}{dy}=-\frac{P}{\rho}
+$$
+the solution to this ODE is $u=-\frac{P}{2\mu\rho}y^2+C_1y+C_2$, plugging in two boundary values ($u=0$ at $y=\pm h$), $C_1=0, C_2=\frac{P}{2\mu\rho}h^2$, thus the solution is 
+$$
+    \textbf{u}=\left(\frac{P}{2\mu}(h^2-y^2),0,0\right)
+$$
+as desired. \qed
+\end{document}
